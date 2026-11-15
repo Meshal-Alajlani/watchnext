@@ -37,6 +37,11 @@ final class HomeFeed
         $count = count($likeIds);
         $full = $count >= self::FULL_PICKS_AT;
 
+        // Never suggest what the user already rated or already saved to watch later.
+        $saved = $this->db->prepare('SELECT item_id FROM watchlist WHERE user_id = ?');
+        $saved->execute([$user['id']]);
+        $exclude = $rated + array_fill_keys($saved->fetchAll(PDO::FETCH_COLUMN), true);
+
         // [key, title, source, recommender, likes to use, smallest row worth showing].
         // Rows are filled in this order, so the series row gets first pick of the movies.
         $plan = [];
@@ -61,7 +66,7 @@ final class HomeFeed
 
         $candidates = [];
         foreach ($plan as $i => [, , , $recommender, $likes]) {
-            $candidates[$i] = $recommender->recommend($likes, $rated, 60);
+            $candidates[$i] = $recommender->recommend($likes, $exclude, 60);
         }
         $hideMature = (bool) $user['hide_mature'];
         if ($hideMature) {

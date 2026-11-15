@@ -45,14 +45,14 @@ final class ItemsController extends Controller
             "SELECT item_id FROM item_neighbors WHERE method = 'next_in_series' AND neighbor_id = ? ORDER BY score DESC LIMIT 5"
         );
         $earlier->execute([$id]);
-        // Recommendations skip movies the user already rated. The series rows keep them,
-        // because they show the order of the series rather than suggestions.
-        $rated = $this->ratedIds();
+        // Recommendations skip movies the user already rated or saved to the watchlist.
+        // The series rows keep them, because they show the order of the series rather than suggestions.
+        $known = $this->knownIds();
         $related = [
             'earlier' => $earlier->fetchAll(PDO::FETCH_COLUMN),                // films before this one, closest first
             'next' => $this->neighbors('next_in_series', $id, 5),              // films after it, very next first
-            'sameDirector' => $this->neighbors('same_director', $id, 8, $rated),
-            'moreLikeThis' => $this->neighbors('ease', $id, 8, $rated),        // the model
+            'sameDirector' => $this->neighbors('same_director', $id, 8, $known),
+            'moreLikeThis' => $this->neighbors('ease', $id, 8, $known),        // the model
         ];
         $rows = $this->catalog->details([$id, ...array_merge(...array_values($related))]);
         $row = $rows[$id] ?? null;

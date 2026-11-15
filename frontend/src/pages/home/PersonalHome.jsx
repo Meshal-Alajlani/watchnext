@@ -1,7 +1,7 @@
 import { MovieRow } from '../../components/movie/MovieRow.jsx';
 import { ErrorMessage } from '../../components/ui/StateMessage.jsx';
 import { Widget } from '../../components/ui/Widget.jsx';
-import { useWithoutRated } from '../../context/library/useWithoutRated.js';
+import { useWithoutKnown } from '../../context/library/useWithoutKnown.js';
 import { useProfile } from '../../context/profile/ProfileContext.js';
 import { displayNameOf, firstName, greeting, todayLabel } from '../../domain/format.js';
 import { PICKS_UNLOCK_AT, ROW_BADGES } from '../../domain/recommendations.js';
@@ -10,15 +10,18 @@ import styles from './Home.module.css';
 import { HomeHero } from './HomeHero.jsx';
 import { StartCard } from './StartCard.jsx';
 
+const HERO_PICKS = 5; // how many top picks the hero card cycles through
+
 /** The signed-in home page: greeting, widgets, a top pick and the recommendation rows. */
 export function PersonalHome({ user }) {
   const { profile } = useProfile();
   const feed = useApiQuery((api, signal) => api.homeFeed({ signal }), [user.id]);
-  const withoutRated = useWithoutRated();
+  const withoutKnown = useWithoutKnown();
   const name = firstName(displayNameOf(profile, user));
-  // Movies rated on this page leave the rows (and the top pick) right away.
-  const rows = (feed.data?.rows ?? []).map((row) => ({ ...row, items: withoutRated(row.items) }));
-  const top = pickTopItem(rows);
+  // Movies rated or saved on this page leave the rows (and the top picks) right away.
+  const rows = (feed.data?.rows ?? []).map((row) => ({ ...row, items: withoutKnown(row.items) }));
+  const picks = pickTopItems(rows, HERO_PICKS);
+  const pickIds = new Set(picks.map((item) => item.id));
 
   return (
     <>
@@ -41,13 +44,13 @@ export function PersonalHome({ user }) {
       )}
       {feed.data && (
         <>
-          {top && <HomeHero item={top} />}
+          {picks.length > 0 && <HomeHero items={picks} />}
           {rows.map((row) => (
             <MovieRow
               key={row.key}
               title={row.title}
               badge={ROW_BADGES[row.source]}
-              items={row.items.filter((item) => item.id !== top?.id)}
+              items={row.items.filter((item) => !pickIds.has(item.id))}
               showBecause
             />
           ))}
@@ -101,9 +104,9 @@ function HomeSkeleton() {
   );
 }
 
-// The hero shows the best model pick: the first "Picked for you" movie when there is one.
-function pickTopItem(rows) {
+// The hero shows the best model picks: the top of "Picked for you" when there is one.
+function pickTopItems(rows, count) {
   const filled = rows.filter((r) => r.items.length > 0);
   const row = filled.find((r) => r.key === 'picked') ?? filled.find((r) => r.source === 'model') ?? filled[0];
-  return row?.items[0] ?? null;
+  return row ? row.items.slice(0, count) : [];
 }

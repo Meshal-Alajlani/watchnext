@@ -203,6 +203,7 @@
   background-size: cover;
   filter: blur(60px) saturate(1.6) brightness(0.55);
   transform: scale(1.2);
+  animation: fade-in var(--duration-slow) var(--ease-out);
 }
 
 .heroPoster {
@@ -210,6 +211,93 @@
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   transition: transform var(--duration) var(--ease-out);
+  animation: slide-in var(--duration-slow) var(--ease-out);
+}
+
+.heroDetails {
+  animation: slide-in var(--duration-slow) var(--ease-out);
+}
+
+/* Eyebrow on the left, previous / dots / next on the right. */
+.heroTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.heroNav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.heroArrow {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.heroArrow:hover {
+  background: var(--glass-bg-hover);
+}
+
+.heroArrow:active {
+  transform: scale(0.92);
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 28px;
+}
+
+.dotMark {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--color-text-tertiary);
+  transition:
+    width var(--duration) var(--ease-out),
+    background-color var(--duration) var(--ease-out);
+}
+
+.dot:hover .dotMark {
+  background: var(--color-text-secondary);
+}
+
+.dotMark.dotActive {
+  width: 18px;
+  background: var(--color-text);
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
 }
 
 .heroPoster:hover {

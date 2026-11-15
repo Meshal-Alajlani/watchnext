@@ -32,15 +32,17 @@ abstract class Controller
         return array_filter($rows, fn(array $row) => !ItemPresenter::isMature($row['age_rating']));
     }
 
-    /** Movies the signed-in user already rated (liked or not), as id => true. Empty when signed out. */
-    protected function ratedIds(): array
+    /** Movies the signed-in user already rated or saved to the watchlist, as id => true. Empty when signed out. */
+    protected function knownIds(): array
     {
         $user = $this->auth->user();
         if ($user === null) {
             return [];
         }
-        $stmt = $this->db->prepare('SELECT item_id FROM ratings WHERE user_id = ?');
-        $stmt->execute([$user['id']]);
+        $stmt = $this->db->prepare(
+            'SELECT item_id FROM ratings WHERE user_id = ? UNION SELECT item_id FROM watchlist WHERE user_id = ?'
+        );
+        $stmt->execute([$user['id'], $user['id']]);
         return array_fill_keys($stmt->fetchAll(PDO::FETCH_COLUMN), true);
     }
 

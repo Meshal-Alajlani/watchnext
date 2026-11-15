@@ -6,7 +6,7 @@ import { Button } from '../../components/ui/Button.jsx';
 import { Icon } from '../../components/ui/Icon.jsx';
 import { ErrorMessage, StateMessage } from '../../components/ui/StateMessage.jsx';
 import { useItemActions } from '../../context/library/useItemActions.js';
-import { useWithoutRated } from '../../context/library/useWithoutRated.js';
+import { useWithoutKnown } from '../../context/library/useWithoutKnown.js';
 import { genreLabel } from '../../domain/genres.js';
 import { mainSeriesName } from '../../domain/series.js';
 import { useApiQuery } from '../../hooks/useApiQuery.js';
@@ -18,7 +18,7 @@ const MODEL_BADGE = { label: 'Recommended', icon: 'sparkles' };
 export function MoviePage() {
   const { id } = useParams();
   const query = useApiQuery((api, signal) => api.movie(id, { signal }), [id]);
-  const withoutRated = useWithoutRated();
+  const withoutKnown = useWithoutKnown();
   useDocumentTitle(query.data?.item.title);
 
   if (query.loading) return <MovieSkeleton />;
@@ -61,11 +61,11 @@ export function MoviePage() {
       {/* Series rows show the order of the series, so rated films stay. The API lists earlier films closest first. */}
       <MovieRow title="Earlier in the series" items={[...related.earlier].reverse()} />
       <MovieRow title="Next in the series" items={related.next} />
-      {/* Suggestions drop anything rated, including movies rated on this page. */}
+      {/* Suggestions drop anything rated or saved, including on this page. */}
       {item.directors.length > 0 && (
-        <MovieRow title={`More from ${item.directors[0]}`} items={withoutRated(related.sameDirector)} />
+        <MovieRow title={`More from ${item.directors[0]}`} items={withoutKnown(related.sameDirector)} />
       )}
-      <MovieRow title="More like this" badge={MODEL_BADGE} items={withoutRated(related.moreLikeThis)} />
+      <MovieRow title="More like this" badge={MODEL_BADGE} items={withoutKnown(related.moreLikeThis)} />
     </article>
   );
 }
