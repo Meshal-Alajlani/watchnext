@@ -1,0 +1,107 @@
+/* Round icon buttons over a poster, shown on hover (always shown on touch screens). */
+.overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 28px 10px 10px;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+:hover > .overlay,
+:focus-within > .overlay {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: none) {
+  .overlay {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.round {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  color: var(--color-text);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+.round:hover {
+  transform: scale(1.08);
+}
+
+.round:active {
+  transform: scale(0.92);
+}
+
+/* Labeled pill buttons for the movie page and the hero. */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.pill:hover {
+  background: var(--glass-bg-hover);
+}
+
+.pill:active {
+  transform: scale(0.97);
+}
+
+/* Pressed states */
+.like[aria-pressed='true'] {
+  border-color: transparent;
+  background: var(--color-like);
+  color: var(--color-on-like);
+}
+
+.dislike[aria-pressed='true'] {
+  border-color: transparent;
+  background: var(--color-dislike);
+  color: var(--color-on-dislike);
+}
+
+.save[aria-pressed='true'] {
+  border-color: transparent;
+  background: var(--color-text);
+  color: var(--color-on-primary);
+}

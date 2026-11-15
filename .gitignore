@@ -1,0 +1,15 @@
+# Secrets: never upload. Each machine keeps its own copy (see backend/config.example.php).
+backend/config.php
+backend/config.server.php
+
+# Claude Code's local settings
+.claude/
+
+# MovieLens-derived data: the MovieLens license doesn't allow sharing it publicly.
+item_neighbors.csv
+items_seed.csv
+
+# Installers, caches and old drafts
+*.exe
+__pycache__/
+cinecompass-feasibility-study.html

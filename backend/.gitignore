@@ -1,0 +1,3 @@
+# Holds passwords and API keys. Each machine has its own copy made from config.example.php.
+config.php
+config.server.php

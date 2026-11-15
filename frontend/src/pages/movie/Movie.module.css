@@ -1,0 +1,186 @@
+.top {
+  position: relative;
+  isolation: isolate;
+  padding-block: 48px 36px;
+  overflow: hidden;
+}
+
+/* The poster, blurred into a soft color glow behind the page (Apple TV style). */
+.backdrop {
+  position: absolute;
+  inset: -80px;
+  z-index: -2;
+  background-position: center 20%;
+  background-size: cover;
+  filter: blur(70px) saturate(1.5) brightness(0.5);
+  transform: scale(1.15);
+}
+
+.fade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, transparent 45%, var(--color-bg) 100%);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(200px, 300px) 1fr;
+  align-items: end;
+  gap: clamp(24px, 4vw, 56px);
+}
+
+.poster {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.info {
+  min-width: 0;
+}
+
+.series {
+  margin-bottom: 6px;
+  color: var(--color-accent-text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: -0.035em;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 12px;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.age {
+  padding: 1px 7px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+}
+
+.ageMature {
+  color: var(--color-mature);
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text);
+}
+
+.rating svg {
+  color: var(--color-star);
+}
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.genre {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.plot {
+  max-width: 62ch;
+  margin-top: 18px;
+  color: var(--color-text);
+  opacity: 0.9;
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.actions {
+  margin-top: 24px;
+}
+
+.links {
+  display: flex;
+  gap: 4px;
+  margin-top: 12px;
+  margin-left: -10px;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.fact {
+  padding: 16px 18px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+}
+
+.factLabel {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.factValue {
+  margin-top: 6px;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+/* Loading placeholder */
+.skeletonLayout {
+  padding-block: 48px;
+}
+
+.skeletonPoster {
+  aspect-ratio: var(--poster-ratio);
+  border-radius: var(--radius-lg);
+  background: var(--color-skeleton);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.skeletonLine {
+  height: 16px;
+  margin-top: 14px;
+  border-radius: var(--radius-xs);
+  background: var(--color-skeleton);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@media (max-width: 760px) {
+  .top {
+    padding-top: 28px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .poster,
+  .skeletonPoster {
+    width: min(220px, 60vw);
+  }
+}

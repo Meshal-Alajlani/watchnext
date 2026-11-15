@@ -1,0 +1,85 @@
+.row {
+  margin-top: 36px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: var(--text-lg);
+  letter-spacing: -0.02em;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-text);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.arrows {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-fill);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.arrow:hover {
+  background: var(--color-fill-strong);
+}
+
+@media (hover: none) {
+  .arrows {
+    display: none;
+  }
+}
+
+/* The row lines up with the page content but scrolls edge to edge. */
+.scroller {
+  --row-inset: max(var(--gutter), calc((100vw - var(--page-max)) / 2 + var(--gutter)));
+  display: flex;
+  gap: 16px;
+  padding: 8px var(--row-inset) 14px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--row-inset);
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.cell {
+  flex: 0 0 var(--poster-width);
+  min-width: 0; /* long titles are cut with "…" instead of widening the card */
+  scroll-snap-align: start;
+}
+
+.skeleton {
+  flex: 0 0 var(--poster-width);
+  aspect-ratio: var(--poster-ratio);
+  border-radius: var(--radius-md);
+  background: var(--color-skeleton);
+  animation: pulse 1.4s ease-in-out infinite;
+}

@@ -1,0 +1,33 @@
+/* Shared page layout: header, title and toolbar. */
+.page {
+  padding-block: 36px 24px;
+}
+
+.header {
+  margin-bottom: 28px;
+}
+
+.title {
+  font-size: var(--text-2xl);
+}
+
+.subtitle {
+  max-width: 60ch;
+  margin-top: 8px;
+  color: var(--color-text-secondary);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.count {
+  margin-bottom: 18px;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}

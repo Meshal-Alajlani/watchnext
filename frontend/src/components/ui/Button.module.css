@@ -1,0 +1,98 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+}
+
+/* 44px is Apple's minimum comfortable touch size. */
+.sm {
+  height: 34px;
+  padding: 0 14px;
+  font-size: var(--text-xs);
+}
+
+.md {
+  height: 44px;
+  padding: 0 20px;
+  font-size: var(--text-sm);
+}
+
+.lg {
+  height: 52px;
+  padding: 0 28px;
+  font-size: var(--text-md);
+}
+
+.iconOnly {
+  padding: 0;
+  aspect-ratio: 1;
+}
+
+.primary {
+  background: var(--color-text);
+  color: var(--color-on-primary);
+}
+
+.primary:hover {
+  background: var(--color-white);
+}
+
+.accent {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.accent:hover {
+  background: var(--color-accent-hover);
+}
+
+.secondary {
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  color: var(--color-text);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.secondary:hover {
+  background: var(--glass-bg-hover);
+}
+
+.danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger-text);
+}
+
+.danger:hover {
+  background: var(--color-danger);
+  color: var(--color-on-dislike);
+}
+
+.plain {
+  padding-inline: 10px;
+  color: var(--color-accent-text);
+}
+
+.plain:hover {
+  color: var(--color-accent-hover);
+}

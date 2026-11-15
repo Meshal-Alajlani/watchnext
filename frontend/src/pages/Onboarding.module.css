@@ -1,0 +1,140 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 22px 18px;
+}
+
+.pick {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-align: left;
+}
+
+.posterWrap {
+  position: relative;
+  display: block;
+  border-radius: var(--radius-md);
+  transition:
+    transform var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out);
+}
+
+.pick:hover .posterWrap {
+  transform: scale(1.03);
+}
+
+.pick[aria-pressed='true'] .posterWrap {
+  box-shadow: 0 0 0 3px var(--color-like);
+}
+
+.check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.pick[aria-pressed='true'] .check {
+  border-color: transparent;
+  background: var(--color-like);
+  color: var(--color-on-like);
+  transform: scale(1.08);
+}
+
+.pickTitle {
+  margin-top: 10px;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pickMeta {
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+}
+
+.skeleton {
+  aspect-ratio: var(--poster-ratio);
+  border-radius: var(--radius-md);
+  background: var(--color-skeleton);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.error {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  gap: 16px;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+.more {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+/* The floating progress bar at the bottom, like an iOS sheet. */
+.dock {
+  position: sticky;
+  bottom: 20px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 560px;
+  margin: 32px auto 0;
+  padding: 12px 12px 12px 22px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-lg);
+}
+
+.progress {
+  flex: 1;
+  min-width: 0;
+}
+
+.progressText {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.bar {
+  height: 6px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-fill);
+}
+
+.barFill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-like);
+  transition: width var(--duration-slow) var(--ease-out);
+}
+
+@media (max-width: 760px) {
+  .dock {
+    bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom) + 12px);
+  }
+}

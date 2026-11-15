@@ -1,0 +1,9 @@
+# This folder is the only part of the backend the web server shows.
+# Every request goes to index.php, which reads the URL and picks the right handler.
+Options -Indexes
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]
+
+# Some Apache setups hide the "Authorization: Bearer <token>" header from PHP. This passes it through.
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
