@@ -6,6 +6,7 @@ import { LoginPage } from './pages/LoginPage.jsx';
 import { MoviePage } from './pages/movie/MoviePage.jsx';
 import { NotFoundPage } from './pages/NotFoundPage.jsx';
 import { OnboardingPage } from './pages/OnboardingPage.jsx';
+import { PicksPage } from './pages/PicksPage.jsx';
 import { RatingsPage } from './pages/RatingsPage.jsx';
 import { SearchPage } from './pages/SearchPage.jsx';
 import { SettingsPage } from './pages/SettingsPage.jsx';
@@ -22,6 +23,7 @@ export function App() {
         <Route path="login" element={<LoginPage />} />
         <Route element={<RequireAuth />}>
           <Route path="start" element={<OnboardingPage />} />
+          <Route path="picks" element={<PicksPage />} />
           <Route path="watchlist" element={<WatchlistPage />} />
           <Route path="ratings" element={<RatingsPage />} />
           <Route path="settings" element={<SettingsPage />} />

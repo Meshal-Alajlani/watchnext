@@ -41,6 +41,11 @@ export class RestMovieApi {
     return this.#http.get('me/recommendations', { signal });
   }
 
+  async picks({ offset = 0, limit = 24 } = {}, { signal } = {}) {
+    const data = await this.#http.get('me/picks', { query: { offset, limit }, signal });
+    return { items: data.results, nextOffset: data.nextOffset };
+  }
+
   async ratings({ liked } = {}, { signal } = {}) {
     const query = liked === undefined ? {} : { liked: liked ? 1 : 0 };
     const data = await this.#http.get('me/ratings', { query, signal });

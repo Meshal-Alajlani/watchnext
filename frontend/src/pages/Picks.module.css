@@ -1,0 +1,16 @@
+.pages {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.end {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}

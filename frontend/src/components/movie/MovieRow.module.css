@@ -27,10 +27,25 @@
   font-weight: var(--weight-semibold);
 }
 
+.more {
+  margin-left: auto;
+  color: var(--color-accent-text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.more:hover {
+  color: var(--color-accent-hover);
+}
+
 .arrows {
   display: flex;
   gap: 8px;
   margin-left: auto;
+}
+
+.more + .arrows {
+  margin-left: 8px;
 }
 
 .arrow {

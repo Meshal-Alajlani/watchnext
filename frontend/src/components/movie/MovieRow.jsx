@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { Link } from 'react-router';
 import { Icon } from '../ui/Icon.jsx';
 import { MovieCard } from './MovieCard.jsx';
 import styles from './MovieRow.module.css';
@@ -8,9 +9,9 @@ const SKELETON_COUNT = 8;
 /**
  * A titled, horizontally scrolling row of movie cards (like the Apple TV app).
  * Renders nothing when there are no items, so callers can pass any row safely.
- * badge: { label, icon } or null.
+ * badge: { label, icon } or null. moreTo: a page with the full list, shown as a "See all" link.
  */
-export function MovieRow({ title, badge = null, items = [], loading = false, showBecause = false }) {
+export function MovieRow({ title, badge = null, items = [], loading = false, showBecause = false, moreTo = null }) {
   const scroller = useRef(null);
 
   if (!loading && items.length === 0) return null;
@@ -29,6 +30,11 @@ export function MovieRow({ title, badge = null, items = [], loading = false, sho
             {badge.icon && <Icon name={badge.icon} size={13} strokeWidth={2.4} />}
             {badge.label}
           </span>
+        )}
+        {moreTo && (
+          <Link to={moreTo} className={styles.more}>
+            See all
+          </Link>
         )}
         {!loading && (
           <div className={styles.arrows}>

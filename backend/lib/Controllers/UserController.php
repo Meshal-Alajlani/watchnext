@@ -4,6 +4,8 @@ declare(strict_types=1);
 // Everything under /me: settings, thumbs up/down, watchlist, and the home page recommendations.
 final class UserController extends Controller
 {
+    private const MAX_PICKS = 200;   // how deep "See all picks" can page
+
     public function __construct(PDO $db, CachedCatalog $catalog, Auth $auth, private float $recentDecay)
     {
         parent::__construct($db, $catalog, $auth);
@@ -60,6 +62,42 @@ final class UserController extends Controller
             $rows[] = ['key' => $row['key'], 'title' => $row['title'], 'source' => $row['source'], 'items' => $cards];
         }
         return ['likes' => $feed['likes'], 'rows' => $rows];
+    }
+
+    // GET /me/picks?offset=0&limit=24  -> all of the model's picks for you, best match first ("See all picks")
+    // Skips movies already rated or in the watchlist, and 18+ movies when Hide 18+ is on.
+    public function picks(): array
+    {
+        $user = $this->auth->requireUser();
+        $limit = min(24, max(1, (int) ($_GET['limit'] ?? 24)));
+        $offset = min(self::MAX_PICKS, max(0, (int) ($_GET['offset'] ?? 0)));
+
+        $likes = $this->db->prepare(
+            'SELECT r.item_id, i.title FROM ratings r JOIN items i ON i.id = r.item_id
+             WHERE r.user_id = ? AND r.liked = 1 ORDER BY r.rated_at DESC, r.item_id LIMIT 200'
+        );
+        $likes->execute([$user['id']]);
+        $liked = $likes->fetchAll(PDO::FETCH_KEY_PAIR);   // id => title, newest like first
+        if (!$liked) {
+            return ['results' => [], 'nextOffset' => null];
+        }
+
+        $ranked = (new NeighborRecommender($this->db, 'ease', $this->recentDecay))
+            ->recommend(array_map('strval', array_keys($liked)), $this->knownIds(), min($offset + $limit, self::MAX_PICKS));
+        $page = array_slice($ranked, $offset, $limit, true);
+        $rows = $this->catalog->details(array_keys($page));
+        if ((bool) $user['hide_mature']) {
+            // An unknown age rating is left out rather than risk showing an 18+ film.
+            $rows = array_filter($rows, fn(array $r) => $r['details_fetched_at'] !== null && !ItemPresenter::isMature($r['age_rating']));
+        }
+
+        $cards = [];
+        foreach ($this->cards($rows) as $card) {
+            $because = $page[$card['id']]['because'] ?? null;
+            $cards[] = $card + ['because' => isset($liked[$because]) ? ['id' => $because, 'title' => $liked[$because]] : null];
+        }
+        $more = count($page) === $limit && $offset + $limit < self::MAX_PICKS;
+        return ['results' => $cards, 'nextOffset' => $more ? $offset + $limit : null];
     }
 
     // GET /me/ratings?liked=1  -> newest first

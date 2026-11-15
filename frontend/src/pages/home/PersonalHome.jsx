@@ -52,6 +52,7 @@ export function PersonalHome({ user }) {
               badge={ROW_BADGES[row.source]}
               items={row.items.filter((item) => !pickIds.has(item.id))}
               showBecause
+              moreTo={row.key === 'picked' ? '/picks' : null}
             />
           ))}
         </>

@@ -51,30 +51,35 @@ export function HomeHero({ items }) {
               <Icon name="sparkles" size={16} />
               {count > 1 ? `Top pick ${position + 1} of ${count}` : 'Top pick for you'}
             </p>
-            {count > 1 && (
-              <div className={styles.heroNav}>
-                <button type="button" className={styles.heroArrow} onClick={() => go(-1)} aria-label="Previous pick">
-                  <Icon name="chevronLeft" size={18} />
-                </button>
-                <div className={styles.dots}>
-                  {items.map((pick, i) => (
-                    <button
-                      key={pick.id}
-                      type="button"
-                      className={styles.dot}
-                      onClick={() => setIndex(i)}
-                      aria-label={`Pick ${i + 1}: ${pick.title}`}
-                      aria-current={i === position}
-                    >
-                      <span className={`${styles.dotMark} ${i === position ? styles.dotActive : ''}`} />
-                    </button>
-                  ))}
-                </div>
-                <button type="button" className={styles.heroArrow} onClick={() => go(1)} aria-label="Next pick">
-                  <Icon name="chevronRight" size={18} />
-                </button>
-              </div>
-            )}
+            <div className={styles.heroNav}>
+              {count > 1 && (
+                <>
+                  <button type="button" className={styles.heroArrow} onClick={() => go(-1)} aria-label="Previous pick">
+                    <Icon name="chevronLeft" size={18} />
+                  </button>
+                  <div className={styles.dots}>
+                    {items.map((pick, i) => (
+                      <button
+                        key={pick.id}
+                        type="button"
+                        className={styles.dot}
+                        onClick={() => setIndex(i)}
+                        aria-label={`Pick ${i + 1}: ${pick.title}`}
+                        aria-current={i === position}
+                      >
+                        <span className={`${styles.dotMark} ${i === position ? styles.dotActive : ''}`} />
+                      </button>
+                    ))}
+                  </div>
+                  <button type="button" className={styles.heroArrow} onClick={() => go(1)} aria-label="Next pick">
+                    <Icon name="chevronRight" size={18} />
+                  </button>
+                </>
+              )}
+              <Button variant="secondary" size="sm" to="/picks">
+                See all
+              </Button>
+            </div>
           </div>
           <HeroDetails key={item.id} item={item} />
         </div>

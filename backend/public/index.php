@@ -28,6 +28,7 @@ try {
     $router->add('PATCH', '/me', fn() => $me->updateMe());                     // {"hideMature": true}
     $router->add('DELETE', '/me', fn() => $me->deleteMe());
     $router->add('GET', '/me/recommendations', fn() => $me->recommendations());
+    $router->add('GET', '/me/picks', fn() => $me->picks());                    // ?offset=0&limit=24
     $router->add('GET', '/me/ratings', fn() => $me->ratings());                // ?liked=1 for likes only
     $router->add('PUT', '/me/ratings/{id}', fn(string $id) => $me->rate($id)); // {"liked": true}
     $router->add('DELETE', '/me/ratings/{id}', fn(string $id) => $me->unrate($id));

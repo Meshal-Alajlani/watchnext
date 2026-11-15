@@ -49,6 +49,8 @@
  * @property {(changes: {displayName?: string, hideMature?: boolean}) => Promise<Profile>} updateProfile
  * @property {() => Promise<void>} deleteProfile
  * @property {(options?: RequestOptions) => Promise<{likes: number, rows: FeedRow[]}>} homeFeed
+ * @property {(page?: {offset?: number, limit?: number}, options?: RequestOptions) => Promise<{items: MovieSummary[], nextOffset: number|null}>} picks
+ *   All of the model's picks, best match first, one page at a time.
  * @property {(filter?: {liked?: boolean}, options?: RequestOptions) => Promise<MovieSummary[]>} ratings
  * @property {(id: string, liked: boolean) => Promise<void>} rate
  * @property {(id: string) => Promise<void>} clearRating
