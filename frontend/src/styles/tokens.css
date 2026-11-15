@@ -86,12 +86,25 @@
   --duration-slow: 450ms;
 
   /* Layout */
-  --page-max: 1320px;
-  --gutter: clamp(16px, 4vw, 48px);
+  --page-max: 1760px;
+  --gutter: clamp(16px, 4vw, 64px);
   --nav-height: 64px;
   --tabbar-height: 62px;
-  --poster-width: clamp(132px, 13vw, 180px);
+  --poster-width: clamp(140px, 12vw, 240px);
   --poster-ratio: 2 / 3;
+}
+
+/* Larger text on big monitors (2K and up), so the page doesn't look tiny. Text sizes use rem, so they all follow. */
+@media (min-width: 1800px) {
+  :root {
+    font-size: 112.5%;
+  }
+}
+
+@media (min-width: 2400px) {
+  :root {
+    font-size: 125%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
